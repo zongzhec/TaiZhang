@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import foo.zongzhe.taizhang.common.GenerateZongbiao;
+
 public class WelcomeView extends JFrame implements ActionListener {
 
 	/**
@@ -44,9 +46,14 @@ public class WelcomeView extends JFrame implements ActionListener {
 	int TesterCount;
 
 	public WelcomeView() {
-
+		setup();
 		showPage();
 
+	}
+	
+	public void setup(){
+		// 生成log文件
+		
 	}
 
 	public void showPage() {
@@ -189,7 +196,8 @@ public class WelcomeView extends JFrame implements ActionListener {
 			ProcessView pv = new ProcessView();
 			String title = "正在生成文件……";
 			pv.showPage(title);
-			;
+			GenerateZongbiao gzb = new GenerateZongbiao();
+			gzb.startGenerate();
 		}
 
 	}

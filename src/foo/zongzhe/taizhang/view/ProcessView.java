@@ -40,7 +40,7 @@ public class ProcessView extends JFrame {
 		// 设置面板上的通用部件
 		Font fontForFillingText = new Font("TimesRoman", Font.PLAIN, 20);
 
-		jl1 = new JLabel("<html><body><p></p><p><center>" + title + "</center></p><p><center>这可能需要几分钟</center></p><p><center>请不要关闭此窗口</center></p><body></html>");
+		jl1 = new JLabel("<html><body><p><center>" + title + "</center></p><p><center>这可能需要几分钟</center></p><p><center>请不要关闭此窗口</center></p><body></html>");
 		jl1.setFont(fontForFillingText);
 		jl1.setHorizontalAlignment(JLabel.CENTER);
 
@@ -52,6 +52,7 @@ public class ProcessView extends JFrame {
 		frame.setResizable(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+
 	}
 
 	public void hidePage() {
@@ -59,7 +60,8 @@ public class ProcessView extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new ProcessView();
+		ProcessView pv = new ProcessView();
+		pv.showPage("正在生成文件……");
 
 	}
 
