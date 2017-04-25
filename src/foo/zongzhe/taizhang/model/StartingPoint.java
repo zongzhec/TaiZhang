@@ -10,10 +10,10 @@ import foo.zongzhe.taizhang.view.WelcomeView;
 
 public class StartingPoint {
 
-	static String ErrorMsg;
-	static File inputDir = new File("C:/taizhang/input");
-	static File outputDir = new File("C:/taizhang/output");
-	static File logDir = new File("C:/taizhang/log");
+	public static String ErrorMsg;
+	public static File inputDir = new File("C:/taizhang/input");
+	public static File outputDir = new File("C:/taizhang/output");
+	public static File logDir = new File("C:/taizhang/log");
 	public static String logFileName;
 
 	public static void main(String[] args) {
@@ -67,29 +67,25 @@ public class StartingPoint {
 		// 处理信息，当出现异常后退出
 		boolean itWorks = true;
 
-		while (itWorks) {
-
-			// 检查输入的文本是否存在，若不存在，则报错后退出
-			String[] fileList = da.getFileList(StartingPoint.inputDir);
-			itWorks = false;
-			for (int i = 0; i < fileList.length; i++) {
-				if (fileList[i].contains("投资明细")) {
-					la.log(StartingPoint.logFileName, "Info", "file checking success. 投资明细 is included in file names.");
-				}
-			}
-			if (!itWorks) {
-				ErrorMsg = "File names does not contain 投资明细";
+		// 检查输入的文本是否存在，若不存在，则报错后退出
+		String[] fileList = da.getFileList(StartingPoint.inputDir);
+		itWorks = false;
+		la.log(StartingPoint.logFileName, "Info", "Input contains " + fileList.length + " files.");
+		for (int i = 0; i < fileList.length; i++) {
+			if (fileList[i].contains("投资明细")) {
+				la.log(StartingPoint.logFileName, "Info", "file checking success. 投资明细 is included in file names.");
+				itWorks = true;
 				break;
 			}
-			itWorks = true;
-
 		}
-
+		la.log(StartingPoint.logFileName, "Info", "File checking success.");
 		if (!itWorks) {
-			la.log(StartingPoint.logFileName, "ERROR", ErrorMsg);
+			la.log(StartingPoint.logFileName, "ERROR", "File names does not contain 投资明细");
 			preWelView.setVisible(false);
 			System.exit(0);
+
 		}
+
 
 		// 准备完毕，关闭准备界面，并显示欢迎界面
 		try

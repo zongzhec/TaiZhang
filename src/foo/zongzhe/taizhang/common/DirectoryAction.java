@@ -24,6 +24,14 @@ public class DirectoryAction {
 		return true;
 	}
 
+	public void deleteAllFile(File dir) {
+		// Purge all files in a dir
+		for (File file : dir.listFiles())
+			if (!file.isDirectory()){
+				file.delete();
+			}	
+	}
+
 	public void createDir(File dir) {
 		System.out.println("开始生成路径");
 		dir.mkdir();
