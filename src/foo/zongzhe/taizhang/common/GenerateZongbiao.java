@@ -11,6 +11,7 @@ public class GenerateZongbiao {
 	LogAction la = new LogAction();
 	HashMap<String, Details> taiZhangMap = new HashMap<String, Details>();
 	public static String outputFileName;
+	public static String inputFileName[] = null;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -41,7 +42,7 @@ public class GenerateZongbiao {
 		// TODO Check input file names.
 		la.log(StartingPoint.logFileName, "Info", "Read input file names.");
 		DirectoryAction da = new DirectoryAction();
-		String inputFileName[] = null;
+		inputFileName = null;
 		inputFileName = da.getFileList(StartingPoint.inputDir);
 		for (int i = 0; i < inputFileName.length; i++) {
 			String fileName = inputFileName[i];
@@ -51,7 +52,7 @@ public class GenerateZongbiao {
 				taiZhangMap.put(fileName, null);
 				la.log(StartingPoint.logFileName, "Info", "File Name " + fileName + " added into mapping.");
 			}
-			outputFileName = StartingPoint.outputDir + "/" + fileName.substring(0, fileName.lastIndexOf('-')) + " 投资总表.xls";
+			outputFileName = StartingPoint.outputDir + "/" + fileName.substring(0, fileName.lastIndexOf('-')) + "-投资总表.xls";
 		}
 		la.log(StartingPoint.logFileName, "Info", "Output file name is: " + outputFileName);
 
@@ -71,8 +72,20 @@ public class GenerateZongbiao {
 	}
 
 	public void readInputFile() {
-		la.log(StartingPoint.logFileName, "Info", "Reading from input files.");
-
+		la.log(StartingPoint.logFileName, "Info", "Start to read from input files.");
+		FileIOAction io = new FileIOAction();
+		for (int i = 0; i < inputFileName.length; i++) {
+			String fileName = inputFileName[i];
+			File file = new File(StartingPoint.inputDir + "/" + fileName);
+			try {
+				int rows = io.getRowCount(file);
+				int columns = io.getColumnCount(file);
+				la.log(StartingPoint.logFileName, "Info", "rows: " + columns);
+			} catch (WriteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

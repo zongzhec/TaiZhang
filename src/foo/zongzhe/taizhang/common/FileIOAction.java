@@ -3,10 +3,8 @@ package foo.zongzhe.taizhang.common;
 import java.io.*;
 
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.hssf.util.*;
-import org.apache.poi.poifs.filesystem.*;
-
-import com.sun.rowset.internal.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import foo.zongzhe.taizhang.model.StartingPoint;
 import jxl.Workbook;
@@ -130,42 +128,93 @@ public class FileIOAction {
 
 		// 根据index来判断写入的阶段
 		la.log(StartingPoint.logFileName, "Info", "Applying styles.");
+		DirectoryAction da = new DirectoryAction();
+		boolean exist = da.whetherFileExists(file);
+		la.log(StartingPoint.logFileName, "Info", "Output exist: " + exist);
 		try {
-			HSSFWorkbook workbook = new HSSFWorkbook();
+			FileInputStream fileInputStream = new FileInputStream(file);
+			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
 			HSSFFont font = workbook.createFont();
-			HSSFSheet sheet = workbook.getSheet(sheetName);
+			HSSFSheet sheet = workbook.getSheetAt(0);
 			if (sheet == null) {
 				la.log(StartingPoint.logFileName, "Info", "Creating " + sheetName);
 				sheet = workbook.createSheet(sheetName);
 			}
-			int rows = sheet.getPhysicalNumberOfRows();
-			for (int r = 0; r < rows; r++) {
-				HSSFRow hssfRow = sheet.getRow(1);
-				if (hssfRow != null) {
-					HSSFCell cell = hssfRow.getCell(column);
-					la.log(StartingPoint.logFileName, "Info", "Applying styles on " + cell.getStringCellValue() + " with " + style);
-					if (style.equals("BOLD")) {
-						la.log(StartingPoint.logFileName, "Info", "BOLD");
-						font.setBold(true);
-					}
 
-					HSSFCellStyle cellStyle = workbook.createCellStyle(); // 样式对象
-					cellStyle.setFont(font);
-					cell.setCellStyle(cellStyle);
-
-					FileOutputStream fileOutputStream = new FileOutputStream(file, false);
-					workbook.write(fileOutputStream);
-					fileOutputStream.close();
-					workbook.close();
+			HSSFRow hssfRow = sheet.getRow(row);
+			if (hssfRow != null) {
+				HSSFCell cell = hssfRow.getCell(column);
+				la.log(StartingPoint.logFileName, "Info", "Applying styles on " + cell.getStringCellValue() + " with " + style);
+				if (style.equals("BOLD")) {
+					la.log(StartingPoint.logFileName, "Info", "BOLD");
+					font.setBold(true);
 				}
+
+				HSSFCellStyle cellStyle = workbook.createCellStyle(); // 样式对象
+				cellStyle.setFont(font);
+				cell.setCellStyle(cellStyle);
+
+				fileInputStream.close();
 			}
 
 			// 人走带门
+			FileOutputStream fileOutputStream = new FileOutputStream(file);
+			workbook.write(fileOutputStream);
+			workbook.close();
+			fileOutputStream.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+	}
+
+	public int getRowCount(File file) throws RowsExceededException, WriteException {
+
+		// 根据index来判断写入的阶段
+		la.log(StartingPoint.logFileName, "Info", "Reading row count for file " + file);
+		DirectoryAction da = new DirectoryAction();
+		boolean exist = da.whetherFileExists(file);
+		la.log(StartingPoint.logFileName, "Info", "Output exist: " + exist);
+		int rows = 0;
+		try {
+			FileInputStream fileInputStream = new FileInputStream(file);
+			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			rows = sheet.getPhysicalNumberOfRows();
+			fileInputStream.close();
+			workbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		la.log(StartingPoint.logFileName, "Info", "Row count is " + rows);
+		return rows;
+
+	}
+	
+	public int getColumnCount(File file) throws RowsExceededException, WriteException {
+
+		// 根据index来判断写入的阶段
+		la.log(StartingPoint.logFileName, "Info", "Reading column count for file " + file);
+		DirectoryAction da = new DirectoryAction();
+		boolean exist = da.whetherFileExists(file);
+		la.log(StartingPoint.logFileName, "Info", "Output exist: " + exist);
+		int columns = 0;
+		try {
+			FileInputStream fileInputStream = new FileInputStream(file);
+			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			columns = sheet.getRow(0).getPhysicalNumberOfCells();
+			fileInputStream.close();
+			workbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		la.log(StartingPoint.logFileName, "Info", "Column count is " + columns);
+		return columns;
 
 	}
 
