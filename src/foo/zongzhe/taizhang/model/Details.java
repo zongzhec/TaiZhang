@@ -3,19 +3,24 @@ package foo.zongzhe.taizhang.model;
 import java.util.Date;
 
 public class Details {
-	
+
 	// 使用中文对应的拼音，避免翻译出错。
+	private int xuHao;
+	private String chanPinBiaoHao;
 	private String piaoHao;
-	private String keHuXingming;
-	private String shenFenZhengHao;
-	private String shouJiHao;
-	private long touZiJinE;
-	private Date qiXiRi;
-	private Date daoQiRi;
+	private Date chengliRiQi;
+	private Date qiXiRiQi;
+	private Date daoQiRiQi;
 	private int cunXuTianShu;
-	private String touZiShouYiLv;
+	private Date duiFuRiQi;
+	private double yuQiNianHuaShouYiLv;
+	private int touZiRenCi;
+	private double touZiJinE;
 	private double touZiShouYi;
 	private double benXiHeJi;
+
+	private String shenFenZhengHao;
+	private String shouJiHao;
 
 	public String getPiaoHao() {
 		return piaoHao;
@@ -25,12 +30,12 @@ public class Details {
 		this.piaoHao = piaoHao;
 	}
 
-	public String getKeHuXingming() {
-		return keHuXingming;
+	public Date getChengliRiQi() {
+		return chengliRiQi;
 	}
 
-	public void setKeHuXingming(String keHuXingming) {
-		this.keHuXingming = keHuXingming;
+	public void setChengliRiQi(Date chengliRiQi) {
+		this.chengliRiQi = chengliRiQi;
 	}
 
 	public String getShenFenZhengHao() {
@@ -49,7 +54,7 @@ public class Details {
 		this.shouJiHao = shouJiHao;
 	}
 
-	public long getTouZiJinE() {
+	public double getTouZiJinE() {
 		return touZiJinE;
 	}
 
@@ -57,20 +62,12 @@ public class Details {
 		this.touZiJinE = touZiJinE;
 	}
 
-	public Date getQiXiRi() {
-		return qiXiRi;
-	}
-
-	public void setQiXiRi(Date qiXiRi) {
-		this.qiXiRi = qiXiRi;
-	}
-
 	public Date getDaoQiRi() {
-		return daoQiRi;
+		return daoQiRiQi;
 	}
 
 	public void setDaoQiRi(Date daoQiRi) {
-		this.daoQiRi = daoQiRi;
+		this.daoQiRiQi = daoQiRi;
 	}
 
 	public int getCunXuTianShu() {
@@ -79,14 +76,6 @@ public class Details {
 
 	public void setCunXuTianShu(int cunXuTianShu) {
 		this.cunXuTianShu = cunXuTianShu;
-	}
-
-	public String getTouZiShouYiLv() {
-		return touZiShouYiLv;
-	}
-
-	public void setTouZiShouYiLv(String touZiShouYiLv) {
-		this.touZiShouYiLv = touZiShouYiLv;
 	}
 
 	public double getTouZiShouYi() {
@@ -105,6 +94,52 @@ public class Details {
 		this.benXiHeJi = benXiHeJi;
 	}
 
+	public int getXuHao() {
+		return xuHao;
+	}
 
+	public void setXuHao(int xuHao) {
+		this.xuHao = xuHao;
+	}
+
+	public Date getDuiFuRiQi() {
+		return duiFuRiQi;
+	}
+
+	public void setDuiFuRiQi(Date duiFuRiQi) {
+		this.duiFuRiQi = duiFuRiQi;
+	}
+
+	public double getYuQiNianHuaShouYiLv() {
+		return yuQiNianHuaShouYiLv;
+	}
+
+	public void setYuQiNianHuaShouYiLv(double yuQiNianHuaShouYiLv) {
+		this.yuQiNianHuaShouYiLv = yuQiNianHuaShouYiLv;
+	}
+
+	public int getTouZiRenCi() {
+		return touZiRenCi;
+	}
+
+	public void setTouZiRenCi(int touZiRenCi) {
+		this.touZiRenCi = touZiRenCi;
+	}
+
+	public Date getQiXiRiQi() {
+		return qiXiRiQi;
+	}
+
+	public void setQiXiRiQi(Date qiXiRiQi) {
+		this.qiXiRiQi = qiXiRiQi;
+	}
+
+	public String getChanPinBiaoHao() {
+		return chanPinBiaoHao;
+	}
+
+	public void setChanPinBiaoHao(String chanPinBiaoHao) {
+		this.chanPinBiaoHao = chanPinBiaoHao;
+	}
 
 }

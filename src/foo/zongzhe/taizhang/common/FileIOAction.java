@@ -1,10 +1,9 @@
 package foo.zongzhe.taizhang.common;
 
 import java.io.*;
-
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 
 import foo.zongzhe.taizhang.model.StartingPoint;
 import jxl.Workbook;
@@ -78,7 +77,7 @@ public class FileIOAction {
 		}
 	}
 
-	public void writeExcel(File file, int column, int row, String outputMsg, boolean create) throws RowsExceededException, WriteException {
+	public void writeExcel(File file, int column, int row, String outputMsg) throws RowsExceededException, WriteException {
 
 		// 根据index来判断写入的阶段
 		System.out.println("Ready to write in excel: " + column + ", " + row + ", " + outputMsg);
@@ -193,7 +192,7 @@ public class FileIOAction {
 		return rows;
 
 	}
-	
+
 	public int getColumnCount(File file) throws RowsExceededException, WriteException {
 
 		// 根据index来判断写入的阶段
@@ -206,7 +205,7 @@ public class FileIOAction {
 			FileInputStream fileInputStream = new FileInputStream(file);
 			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
 			HSSFSheet sheet = workbook.getSheetAt(0);
-			columns = sheet.getRow(0).getPhysicalNumberOfCells();
+			columns = sheet.getRow(1).getPhysicalNumberOfCells();
 			fileInputStream.close();
 			workbook.close();
 		} catch (IOException e) {
@@ -215,6 +214,62 @@ public class FileIOAction {
 		}
 		la.log(StartingPoint.logFileName, "Info", "Column count is " + columns);
 		return columns;
+
+	}
+
+	public int findContent(File file, String content) throws RowsExceededException, WriteException {
+
+		// 根据index来判断写入的阶段
+		la.log(StartingPoint.logFileName, "Info", "Finding content " + content + " in " + file);
+		DirectoryAction da = new DirectoryAction();
+		boolean exist = da.whetherFileExists(file);
+		la.log(StartingPoint.logFileName, "Info", "Output exist: " + exist);
+		int columns = 0;
+		int col = -1;
+		try {
+			FileInputStream fileInputStream = new FileInputStream(file);
+			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			columns = sheet.getRow(1).getPhysicalNumberOfCells();
+			String cell;
+			for (int i = 0; i < columns; i++) {
+				cell = sheet.getRow(1).getCell(i).getStringCellValue();
+				if (cell.equals(content)) {
+					col = i;
+					break;
+				}
+			}
+			fileInputStream.close();
+			workbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return col;
+
+	}
+
+	public String readCell(File file, int row, int colunm) throws RowsExceededException, WriteException {
+
+		// 根据index来判断写入的阶段
+		la.log(StartingPoint.logFileName, "Info", "Reading content from " + file + " col is " + colunm + " row is " + row);
+		DirectoryAction da = new DirectoryAction();
+		boolean exist = da.whetherFileExists(file);
+		la.log(StartingPoint.logFileName, "Info", "Output exist: " + exist);
+		String cellContent = "";
+		try {
+			FileInputStream fileInputStream = new FileInputStream(file);
+			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			sheet.getRow(row).getCell(colunm).setCellType(CellType.STRING);
+			cellContent = sheet.getRow(row).getCell(colunm).getStringCellValue().toString();
+			fileInputStream.close();
+			workbook.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return cellContent;
 
 	}
 
